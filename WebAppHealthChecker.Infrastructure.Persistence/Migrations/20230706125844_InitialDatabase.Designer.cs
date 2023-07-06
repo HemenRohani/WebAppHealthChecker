@@ -12,7 +12,7 @@ using WebAppHealthChecker.Infrastructure.Persistence;
 namespace WebAppHealthChecker.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230705140411_InitialDatabase")]
+    [Migration("20230706125844_InitialDatabase")]
     partial class InitialDatabase
     {
         /// <inheritdoc />
@@ -45,7 +45,9 @@ namespace WebAppHealthChecker.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -74,7 +76,9 @@ namespace WebAppHealthChecker.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
 
                     b.Property<DateTime?>("LastCheck")
                         .HasColumnType("datetime2");
@@ -98,38 +102,6 @@ namespace WebAppHealthChecker.Infrastructure.Persistence.Migrations
                     b.ToTable("WebApp", "base");
                 });
 
-            modelBuilder.Entity("WebAppHealthChecker.Domain.Entities.WebAppCheck", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("StatusCode")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WebAppCheckId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WebAppId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WebAppCheckId");
-
-                    b.HasIndex("WebAppId");
-
-                    b.ToTable("WebAppCheck", "base");
-                });
-
             modelBuilder.Entity("WebAppHealthChecker.Domain.Entities.WebApp", b =>
                 {
                     b.HasOne("WebAppHealthChecker.Domain.Entities.User", "User")
@@ -141,29 +113,9 @@ namespace WebAppHealthChecker.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebAppHealthChecker.Domain.Entities.WebAppCheck", b =>
-                {
-                    b.HasOne("WebAppHealthChecker.Domain.Entities.WebAppCheck", null)
-                        .WithMany("Checks")
-                        .HasForeignKey("WebAppCheckId");
-
-                    b.HasOne("WebAppHealthChecker.Domain.Entities.WebApp", "WebApp")
-                        .WithMany()
-                        .HasForeignKey("WebAppId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WebApp");
-                });
-
             modelBuilder.Entity("WebAppHealthChecker.Domain.Entities.User", b =>
                 {
                     b.Navigation("Apps");
-                });
-
-            modelBuilder.Entity("WebAppHealthChecker.Domain.Entities.WebAppCheck", b =>
-                {
-                    b.Navigation("Checks");
                 });
 #pragma warning restore 612, 618
         }

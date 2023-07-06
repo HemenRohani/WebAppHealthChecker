@@ -13,7 +13,7 @@ public static class ModelBuilderExtentions
 
         foreach (var type in types)
         {
-            modelBuilder.Entity(type);
+            modelBuilder.Entity(type).Property("Guid").HasDefaultValueSql("newid()");
         }
     }
 }

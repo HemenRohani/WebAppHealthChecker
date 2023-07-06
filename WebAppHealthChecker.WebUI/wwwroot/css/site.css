@@ -20,3 +20,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.login-box {
+    width: 360px;
+    margin: 1% auto;
+}
+
+.login-box-body, .register-box-body {
+    background: rgba(0,0,0,.075);
+    padding: 20px;
+    border-top: 0;
+    color: #666;
+}

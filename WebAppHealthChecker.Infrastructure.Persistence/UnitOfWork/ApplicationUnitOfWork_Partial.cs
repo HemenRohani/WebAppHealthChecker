@@ -7,5 +7,4 @@ public partial class ApplicationUnitOfWork
 {
     public DbSet<User> Users => _context.Set<User>();
     public DbSet<WebApp> WebApps => _context.Set<WebApp>();
-    public DbSet<WebAppCheck> Checks => _context.Set<WebAppCheck>();
 }

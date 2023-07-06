@@ -5,6 +5,11 @@ namespace WebAppHealthChecker.Domain.Entities
 {
     public class User : BaseEntity
     {
+        public User()
+        {
+            Apps = new HashSet<WebApp>();
+        }
+
         [Required, MaxLength(50)]
         public string FirstName { get; set; }
         [Required, MaxLength(50)]

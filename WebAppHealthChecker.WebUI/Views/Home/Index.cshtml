@@ -2,7 +2,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<table id="webAppsTable"
+       data-toggle="table"
+       data-url="@Url.Action("WebAppsList")"
+       data-show-refresh="true"
+       data-buttons="buttons">
+    <thead>
+        <tr>
+            <th data-field="Name">Name</th>
+            <th data-field="URL">URL</th>
+            <th data-field="CheckInterval">Interval</th>
+            <th data-field="LastCheck">Last Check</th>
+            <th data-field="LastCheck">Last Status</th>
+        </tr>
+    </thead>
+</table>
+
+
+@section Styles
+{
+    <link href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css" rel="stylesheet">
+}
+@section Scripts
+{
+    <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
+    <script>
+        function buttons() {
+            return {
+                btnAdd: {
+                    text: 'Add new WebApp',
+                    icon: 'fa-plus',
+                    event: function () {
+                        
+                    },
+                    attributes: {
+                        title: 'Add a new WebApp'
+                    }
+                }
+            }
+        }
+    </script>
+}

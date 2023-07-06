@@ -16,7 +16,6 @@ public static class ConfigureServices
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         });
 
-        //  services.AddScoped<IAuthenticationService, AuthenticationService>();
         return services;
     }
 }

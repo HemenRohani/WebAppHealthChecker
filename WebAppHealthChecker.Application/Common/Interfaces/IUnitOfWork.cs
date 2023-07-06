@@ -17,6 +17,5 @@ namespace WebAppHealthChecker.Application.Common.Interfaces
     {
         public DbSet<User> Users { get; }
         public DbSet<WebApp> WebApps { get; }
-        public DbSet<WebAppCheck> Checks { get; }
     }
 }

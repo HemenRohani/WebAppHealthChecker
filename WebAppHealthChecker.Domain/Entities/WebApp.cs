@@ -15,6 +15,7 @@ namespace WebAppHealthChecker.Domain.Entities
         public string URL { get; set; }
         public int  CheckInterval { get; set; }
         public DateTime? LastCheck { get; set; }
+        public int LastStatusCode { get; set; }
 
     }
 }

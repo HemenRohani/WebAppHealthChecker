@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using WebAppHealthChecker.Domain.Common;
 using WebAppHealthChecker.Domain.Entities;
 using WebAppHealthChecker.Infrastructure.Persistence.Extensions;
@@ -26,6 +21,7 @@ namespace WebAppHealthChecker.Infrastructure.Persistence
             modelBuilder.HasDefaultSchema("base");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.RegisterAllEntities<BaseEntity>(typeof(User).Assembly);
+
             base.OnModelCreating(modelBuilder);
         }
 

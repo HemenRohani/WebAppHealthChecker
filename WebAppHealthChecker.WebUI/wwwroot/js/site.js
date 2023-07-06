@@ -1,4 +1,17 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).on('click', '[data-modal-url]', function () {
+    var url = $(this).data('modal-url');
+    var title = $(this).data('modal-title');
 
-// Write your JavaScript code.
+    // AJAX request
+    $.ajax({
+        url: url,
+        type: 'get',
+        success: function (response) {
+            $('#tempModal .modal-title').html(title);
+            $('#tempModal .modal-body').html(response);
+
+            // Display Modal
+            $('#tempModal').modal('show');
+        }
+    });
+});
