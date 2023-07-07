@@ -15,7 +15,6 @@ I used MediatR for CQRS +  Clean Architecture To prepare this Solution and
  * Entity Framework ORM and localdb database
  * Elmah for logging errors(/elmah)
  * Register and login form for support multiple user accounts
- * I didn't have enough time to add unit-test
  * You can easily implement the INotificationService interface to have more notification types
 
 > WebAppHealthChecker.WebUI.ConfigureServices.cs
