@@ -1,12 +1,10 @@
-﻿using WebAppHealthChecker.Application.Common.Interfaces;
+﻿namespace WebAppHealthChecker.Application.Authentication.Queries.Login;
 
-namespace WebAppHealthChecker.Application.Authentication.Queries.Login;
-
-public class AuthenticationQueryHandler : IRequestHandler<LoginQuery, UserDto>
+public class LoginQueryHandler : IRequestHandler<LoginQuery, UserDto>
 {
     private readonly IApplicationUnitOfWork _uow;
 
-    public AuthenticationQueryHandler(IApplicationUnitOfWork unitOfWork)
+    public LoginQueryHandler(IApplicationUnitOfWork unitOfWork)
          => _uow = unitOfWork;
 
     public async Task<UserDto> Handle(LoginQuery request, CancellationToken cancellationToken)
@@ -15,6 +13,7 @@ public class AuthenticationQueryHandler : IRequestHandler<LoginQuery, UserDto>
                                              && x.Password == request.Password)
                                   .Select(x => new UserDto
                                   {
+                                      Id = x.Id,
                                       Guid = x.Guid,
                                       Email = x.Email,
                                       FirstName = x.FirstName,

@@ -1,13 +1,12 @@
-﻿using WebAppHealthChecker.Application.Common.Interfaces;
-using WebAppHealthChecker.Domain.Entities;
+﻿using WebAppHealthChecker.Domain.Entities;
 
 namespace WebAppHealthChecker.Application.Authentication.Commands.UserRegister;
 
-public class AuthenticationCommandHandler : IRequestHandler<UserRegisterCommand, Guid>
+public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, Guid>
 {
     private readonly IApplicationUnitOfWork _uow;
 
-    public AuthenticationCommandHandler(IApplicationUnitOfWork unitOfWork)
+    public UserRegisterCommandHandler(IApplicationUnitOfWork unitOfWork)
          => _uow = unitOfWork;
 
     public async Task<Guid> Handle(UserRegisterCommand request, CancellationToken cancellationToken)

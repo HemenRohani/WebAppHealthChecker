@@ -5,7 +5,7 @@ namespace WebAppHealthChecker.Infrastructure.NotificationService;
 
 public class EmailService : INotificationService
 {
-    public Task<ActionResult> SendAsync(string reciver, string text)
+    public Task SendAsync(string reciver, string text)
     {
         throw new NotImplementedException();
     }

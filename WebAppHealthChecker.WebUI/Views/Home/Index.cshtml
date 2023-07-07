@@ -5,41 +5,104 @@
 <table id="webAppsTable"
        data-toggle="table"
        data-url="@Url.Action("WebAppsList")"
-       data-show-refresh="true"
        data-buttons="buttons">
     <thead>
         <tr>
-            <th data-field="Name">Name</th>
-            <th data-field="URL">URL</th>
-            <th data-field="CheckInterval">Interval</th>
-            <th data-field="LastCheck">Last Check</th>
-            <th data-field="LastCheck">Last Status</th>
+            <th data-field="name">Name</th>
+            <th data-field="url">URL</th>
+            <th data-field="checkInterval">Interval</th>
+            <th data-field="lastCheck">Last Check</th>
+            <th data-field="lastStatus">Last Status</th>
+            <th data-field="guid" data-formatter="commands"></th>
         </tr>
     </thead>
 </table>
 
 
 @section Styles
-{
-    <link href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css" rel="stylesheet">
+    {
+    <link href="~/lib/bootstrap-table/dist/css/bootstrap-table.min.css" rel="stylesheet">
 }
 @section Scripts
-{
-    <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
+    {
+    <script src="~/lib/bootstrap-table/dist/js/bootstrap-table.min.js"></script>
     <script>
         function buttons() {
             return {
                 btnAdd: {
                     text: 'Add new WebApp',
-                    icon: 'fa-plus',
+                    icon: 'fa fa-plus',
                     event: function () {
-                        
+                        $.ajax({
+                            url: '@Url.Action("CreateWebApp")',
+                            type: 'get',
+                            success: function (response) {
+                                $('#tempModal .modal-title').html("Create new WebApp");
+                                $('#tempModal .modal-body').html(response);
+
+                                // Display Modal
+                                $('#tempModal').modal('show');
+                            }
+                        });
                     },
                     attributes: {
                         title: 'Add a new WebApp'
                     }
+                },
+                btnRefresh: {
+                    text: 'Refresh List',
+                    icon: 'fa fa-refresh',
+                    event: function () {
+                        $('#webAppsTable').bootstrapTable('refresh');
+
+                    },
+                    attributes: {
+                        title: 'Refresh List'
+                    }
                 }
+
             }
         }
+
+        function commands(value, row) {
+            return `<button type='button' data-delete-webapp='${value}' class='btn btn-outline-danger btn-sm'><i class='fa fa-close'></i></button>` +
+                `<button type ='button' data-edit-webapp='${value}' class='btn btn-outline-info btn-sm'><i class='fa fa-pencil'></i></button>`;
+        }
+
+        $(document).on('click', '[data-delete-webapp]', function () {
+            var guid = $(this).data('delete-webapp');
+            if (confirm("Are you sure to delete this WebApp?")) {
+                $.post('@Url.Action("DeleteWebApp")', { Guid: guid },
+                    function (data) {
+                        if (data == 'Ok')
+                            $('#webAppsTable').bootstrapTable('refresh');
+
+                    })
+                    .fail(function (x, e, s) {
+                        alert(x.responseText);
+                    })
+                    .always(function () {
+
+                    });
+
+            }
+        });
+
+        $(document).on('click', '[data-edit-webapp]', function () {
+            var guid = $(this).data('edit-webapp');
+            $.ajax({
+                url: '@Url.Action("UpdateWebApp")',
+                data: { Guid: guid },
+                type: 'get',
+                success: function (response) {
+                    $('#tempModal .modal-title').html("Edit WebApp");
+                    $('#tempModal .modal-body').html(response);
+
+                    // Display Modal
+                    $('#tempModal').modal('show');
+                }
+            });
+
+        });
     </script>
 }

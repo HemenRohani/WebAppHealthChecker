@@ -14,8 +14,18 @@
                 @Html.PasswordFor(x => x.Password, htmlAttributes: new {  @class = "form-control", placeholder = "Enter Password" })
             </div>
             <br />
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="button" data-submit="ajax" data-callback="loginCallback" class="btn btn-primary w-100">Login</button>
             <p class="message">Not registered? <a href="#" data-modal-url="@Url.Action("Register")" data-modal-title="Register User">Create an account</a></p>
         }
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        function loginCallback(res) {
+            if (res == 'Ok')
+            window.location.href = "/";
+        }
+    </script>
+}

@@ -18,4 +18,8 @@
     <ProjectReference Include="..\WebAppHealthChecker.Domain\WebAppHealthChecker.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Users\Queries\GetUserByEmail\" />
+  </ItemGroup>
+
 </Project>

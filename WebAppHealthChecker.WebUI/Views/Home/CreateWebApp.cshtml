@@ -1,0 +1,33 @@
+﻿@using WebAppHealthChecker.Application.WebApps.Commands.CreateWebApp;
+@model CreateWebAppCommand
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, htmlAttributes: new {  @class = "form-control", placeholder = "Enter Name" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.URL)
+        @Html.TextBoxFor(x => x.URL, htmlAttributes: new { @class = "form-control", placeholder = "Enter URL with http or https prfix" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.CheckInterval)
+        @Html.TextBoxFor(x => x.CheckInterval, htmlAttributes: new { type = "number",  @class = "form-control", placeholder = "Enter Check Interval" })
+    </div>
+    <br />
+    <button type="button" data-submit="ajax" data-callback="createWebAppCallback" class="btn btn-primary w-100">Submit</button>
+}
+
+<script>
+    function createWebAppCallback(res) {
+        if (res == 'Ok') {
+            $('#tempModal').modal('hide');
+            $('#webAppsTable').bootstrapTable('refresh');
+
+        }
+    }
+</script>

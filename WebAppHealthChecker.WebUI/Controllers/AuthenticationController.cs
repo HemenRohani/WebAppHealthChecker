@@ -7,7 +7,6 @@ using System.Security.Claims;
 using WebAppHealthChecker.Application.Authentication.Commands.UserRegister;
 using WebAppHealthChecker.Application.Authentication.Queries.Login;
 using WebAppHealthChecker.Application.Common.Interfaces.AAA;
-using WebAppHealthChecker.Infrastructure.AAA;
 
 namespace WebAppHealthChecker.WebUI.Controllers
 {
@@ -52,15 +51,15 @@ namespace WebAppHealthChecker.WebUI.Controllers
                                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30),
                                });
 
-            return Ok();
+            return Ok("Ok");
 
         }
 
         private ClaimsPrincipal createCookieClaims(UserDto user)
         {
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Guid.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.Name, user.Email));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}({user.Email})"));
             identity.AddClaim(new Claim("DisplayName", $"{user.FirstName} {user.LastName}"));
 
             // to invalidate the cookie
@@ -75,21 +74,21 @@ namespace WebAppHealthChecker.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Guid>> Register(UserRegisterCommand userRegisterCommand)
 =>          await _mediator.Send(userRegisterCommand);
 
-        [AllowAnonymous]
-        public async Task<bool> Logout()
+        [Authorize]
+        public async Task<ActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return true;
+            return Redirect("/Home");
         }
 
     }

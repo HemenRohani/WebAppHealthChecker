@@ -1,0 +1,34 @@
+﻿@using WebAppHealthChecker.Application.WebApps.Commands.UpdateWebApp;
+@model UpdateWebAppCommand
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.Guid)
+    <div class="form-group">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, htmlAttributes: new {  @class = "form-control", placeholder = "Enter Name" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.URL)
+        @Html.TextBoxFor(x => x.URL, htmlAttributes: new { @class = "form-control", placeholder = "Enter URL with http or https prfix" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.CheckInterval)
+        @Html.TextBoxFor(x => x.CheckInterval, htmlAttributes: new { type = "number",  @class = "form-control", placeholder = "Enter Check Interval" })
+    </div>
+    <br />
+    <button type="submit" data-submit="ajax" data-callback="updateWebAppCallback" class="btn btn-primary w-100">Submit</button>
+}
+
+<script>
+    function updateWebAppCallback(res) {
+        if (res == 'Ok') {
+            $('#tempModal').modal('hide');
+            $('#webAppsTable').bootstrapTable('refresh');
+
+        }
+    }
+</script>

@@ -2,6 +2,6 @@
 
 public interface INotificationService
 {
-    Task<ActionResult> SendAsync(string reciver, string text);
+    Task SendAsync(string reciver, string text);
 
 }

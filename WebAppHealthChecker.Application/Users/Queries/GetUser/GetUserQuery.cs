@@ -1,6 +1,8 @@
-﻿namespace WebAppHealthChecker.Application.Users.Queries.GetUser;
+﻿using WebAppHealthChecker.Application.Authentication.Queries.Login;
 
-public record GetUserQuery : IRequest<GetUserDto>
+namespace WebAppHealthChecker.Application.Users.Queries.GetUser;
+
+public record GetUserQuery : IRequest<UserDto>
 {
     public Guid Guid { get; set; }
 }
