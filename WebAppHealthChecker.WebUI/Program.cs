@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Text.Encodings.Web;
-using WatchDog;
+using ElmahCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebAppHealthChecker.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,11 +15,19 @@ var app = builder.Build();
 
 ConfigureMiddlewares(app, app.Environment);
 
+ConfigureDB(app);
+
 app.Run();
 
 
 void ConfigureMiddlewares(WebApplication app, IHostEnvironment env)
 {
+    if (env.IsDevelopment())
+    {
+        //app.UseDeveloperExceptionPage();
+        app.UseElmahExceptionPage();
+    }
+
     if (!env.IsDevelopment())
     {
         app.UseHsts();
@@ -42,11 +48,14 @@ void ConfigureMiddlewares(WebApplication app, IHostEnvironment env)
 
     app.UseAuthorization();
 
-    //app.UseWatchDogExceptionLogger();
+    app.UseElmah();
+}
 
-    //app.UseWatchDog(opt =>
-    //{
-    //    opt.WatchPageUsername = "admin";
-    //    opt.WatchPagePassword = "admin";
-    //});
+void ConfigureDB(IApplicationBuilder app)
+{
+    using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+    {
+        var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        context.Database.Migrate();
+    }
 }

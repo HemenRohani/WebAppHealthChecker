@@ -1,4 +1,6 @@
-﻿namespace WebAppHealthChecker.Application.Common.Interfaces;
+﻿using WebAppHealthChecker.Domain.Entities;
+
+namespace WebAppHealthChecker.Application.Common.Interfaces;
 
 public interface INotificationService
 {

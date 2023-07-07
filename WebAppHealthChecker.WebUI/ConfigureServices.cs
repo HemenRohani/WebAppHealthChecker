@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using ElmahCore;
+using ElmahCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using System.Security.Principal;
-using WatchDog;
 using WebAppHealthChecker.Application.Common;
+using WebAppHealthChecker.Application.Common.Interfaces;
 using WebAppHealthChecker.Application.Common.Interfaces.AAA;
-using WebAppHealthChecker.Domain.Entities;
 using WebAppHealthChecker.Infrastructure.AAA;
+using WebAppHealthChecker.Infrastructure.NotificationService;
+using WebAppHealthChecker.WebUI.Helper;
 
 namespace WebAppHealthChecker.Presentation;
 
@@ -18,11 +20,13 @@ public static class ConfigureServices
         services.AddScoped<IDeviceDetectionService, DeviceDetectionService>();
         services.AddScoped<ICookieValidatorService, CookieValidatorService>();
 
-        services.AddWatchDogServices(opt => 
+        services.AddElmah<XmlFileErrorLog>(options =>
         {
-            opt.SetExternalDbConnString = "Server=(localdb)\\MSSQLLocalDB;Integrated Security=true;Database=WebAppHealthCheckerDb;MultipleActiveResultSets=true;Encrypt=false";
-            opt.DbDriverOption = WatchDog.src.Enums.WatchDogDbDriverEnum.MSSQL;
+            options.LogPath = "~/log";
+            options.OnPermissionCheck = context => context.User.Identity.IsAuthenticated;
         });
+
+        //services.AddHostedService<WebAppHealthCheckerTask>();
 
         services.AddTransient<UserData>(provider => 
         {
@@ -39,6 +43,10 @@ public static class ConfigureServices
                 Guid = userGuid
             };
         });
+
+
+        services.AddScoped<INotificationService, EmailService>();
+        //Add more INotificationService here
 
         services
         .AddAuthentication(options =>

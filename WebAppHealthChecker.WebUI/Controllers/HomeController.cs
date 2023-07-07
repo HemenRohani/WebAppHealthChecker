@@ -7,6 +7,7 @@ using WebAppHealthChecker.Application.WebApps.Commands.DeleteWebApp;
 using WebAppHealthChecker.Application.WebApps.Commands.UpdateWebApp;
 using WebAppHealthChecker.Application.WebApps.Queries.GetUserWebApps;
 using WebAppHealthChecker.Application.WebApps.Queries.GetWebApp;
+using WebAppHealthChecker.WebUI.Helper;
 
 namespace WebAppHealthChecker.WebUI.Controllers
 {
@@ -51,6 +52,7 @@ namespace WebAppHealthChecker.WebUI.Controllers
         public async Task<ActionResult> CreateWebApp(CreateWebAppCommand createWebAppCommand)
         {
             await _mediator.Send(createWebAppCommand);
+            WebAppHealthCheckerTask.NeedToUpdateSites = true;
             return Ok("Ok");
         }
 
@@ -73,6 +75,7 @@ namespace WebAppHealthChecker.WebUI.Controllers
         public async Task<ActionResult> UpdateWebApp(UpdateWebAppCommand updateWebAppCommand)
         {
             await _mediator.Send(updateWebAppCommand);
+            WebAppHealthCheckerTask.NeedToUpdateSites = true;
             return Ok("Ok");
         }
 
@@ -81,6 +84,7 @@ namespace WebAppHealthChecker.WebUI.Controllers
         public async Task<ActionResult> DeleteWebApp(DeleteWebAppCommand deleteWebAppCommand)
         {
             await _mediator.Send(deleteWebAppCommand);
+            WebAppHealthCheckerTask.NeedToUpdateSites = true;
             return Ok("Ok");
         }
     }

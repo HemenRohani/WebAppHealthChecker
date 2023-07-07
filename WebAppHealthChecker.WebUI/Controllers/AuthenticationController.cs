@@ -34,7 +34,7 @@ namespace WebAppHealthChecker.WebUI.Controllers
         public async Task<IActionResult> Login(LoginQuery loginQuery)
         {
             var user = await _mediator.Send(loginQuery);
-            if(user == null)
+            if (user == null)
             {
                 return Unauthorized();
             }
@@ -82,7 +82,10 @@ namespace WebAppHealthChecker.WebUI.Controllers
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<Guid>> Register(UserRegisterCommand userRegisterCommand)
-=>          await _mediator.Send(userRegisterCommand);
+        {
+            await _mediator.Send(userRegisterCommand);
+            return Ok("Ok");
+        }
 
         [Authorize]
         public async Task<ActionResult> Logout()

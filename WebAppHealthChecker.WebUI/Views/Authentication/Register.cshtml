@@ -23,5 +23,13 @@
         @Html.PasswordFor(x => x.Password, htmlAttributes: new {  @class = "form-control", placeholder = "Enter Password" })
     </div>
     <br />
-    <button type="button" data-submit="ajax" data-callback="" class="btn btn-primary w-100">Submit</button>
+    <button type="button" data-submit="ajax" data-callback="registerCallback" class="btn btn-primary w-100">Submit</button>
 }
+
+<script>
+    function registerCallback(res) {
+        if (res == 'Ok')
+            $('#tempModal').modal('hide');
+
+    }
+</script>
