@@ -4,6 +4,6 @@ namespace WebAppHealthChecker.Application.Common.Interfaces;
 
 public interface INotificationService
 {
-    Task SendAsync(string reciver, string text);
+    void SendAsync(string reciver, string text, CancellationToken stoppingToken);
 
 }

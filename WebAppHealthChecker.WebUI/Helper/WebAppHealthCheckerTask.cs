@@ -45,25 +45,25 @@ namespace WebAppHealthChecker.WebUI.Helper
                         var now = DateTime.Now;
                         var mediator = serviceProvider.GetService<ISender>();
                         mediator.Send(new UpdateWebAppStatusCommand { LastCheck = now, LastStatusCode = checkingResponse.StatusCode.GetHashCode() });
-                        if ((checkingResponse.StatusCode.GetHashCode() / 100) == 2)
+                        if ((checkingResponse.StatusCode.GetHashCode() / 100) != 2)
                         {
                             var services = serviceProvider.GetServices<INotificationService>();
 
                             foreach (var service in services)
                             {
-                                service.SendAsync(webApp.UserEmail, $"Unable to reach {webApp.URL} at {now}");
+                                service.SendAsync(webApp.UserEmail, $"Unable to reach {webApp.URL} at {now}", stoppingToken);
                             }
 
                         }
                     }
                     catch (Exception ex)
                     {
-                        throw;
+                        //throw;
                     }
                 }));
             }
             await Task.WhenAll(tasks);
-            //_logger.LogInformation("WebAppHealthCheckerTask executing - {0}", DateTime.Now);
+            _logger.LogInformation("WebAppHealthCheckerTask executing - {0}", DateTime.Now);
             return;
         }
     }

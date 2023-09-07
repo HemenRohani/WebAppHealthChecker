@@ -4,6 +4,7 @@ using WebAppHealthChecker.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.RegisterApplicationServices()
     .RegisterInfrastructureServices()
     .RegisterPersistenceServices(builder.Configuration)
