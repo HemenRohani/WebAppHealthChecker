@@ -23,7 +23,7 @@ namespace WebAppHealthChecker.WebUI.Helper
             _logger = logger;
         }
 
-        protected override string Schedule => "*/10 * * * * *"; //Runs every 1 seconds
+        protected override string Schedule => "*/1 * * * * *"; //Runs every 1 seconds
 
         public override async Task ScheduledExecuteInScope(IServiceProvider serviceProvider, CancellationToken stoppingToken)
         {
@@ -44,7 +44,9 @@ namespace WebAppHealthChecker.WebUI.Helper
                         var checkingResponse = await (new HttpClient()).GetAsync(webApp.URL);
                         var now = DateTime.Now;
                         var mediator = serviceProvider.GetService<ISender>();
-                        mediator.Send(new UpdateWebAppStatusCommand { LastCheck = now, LastStatusCode = checkingResponse.StatusCode.GetHashCode() });
+
+                        await mediator.Send(new UpdateWebAppStatusCommand { LastCheck = now, LastStatusCode = checkingResponse.StatusCode.GetHashCode() });
+
                         if ((checkingResponse.StatusCode.GetHashCode() / 100) != 2)
                         {
                             var services = serviceProvider.GetServices<INotificationService>();
