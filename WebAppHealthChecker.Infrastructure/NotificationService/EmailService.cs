@@ -8,7 +8,7 @@ namespace WebAppHealthChecker.Infrastructure.NotificationService;
 
 public class EmailService : INotificationService
 {
-    public Task SendAsync(string reciver, string text)
+    public Task SendAsync(string reciver, string text, CancellationToken stoppingToken)
     {
         MailMessage mailMessage = new MailMessage();
         mailMessage.From = new MailAddress("email@mywebsitedomain.com");
@@ -23,6 +23,8 @@ public class EmailService : INotificationService
         smtpClient.Credentials = new NetworkCredential("username", "password");
         smtpClient.EnableSsl = true;
 
-        smtpClient.Send(mailMessage);
+        smtpClient.SendAsync(mailMessage, stoppingToken);
+
+        return Task.CompletedTask;
     }
 }
