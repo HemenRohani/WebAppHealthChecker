@@ -53,7 +53,7 @@ namespace WebAppHealthChecker.WebUI.Helper
 
                             foreach (var service in services)
                             {
-                                await service.SendAsync(webApp.UserEmail, $"Unable to reach {webApp.URL} at {now}", stoppingToken);
+                                service.SendAsync(webApp.UserEmail, $"Unable to reach {webApp.URL} at {now}", stoppingToken);
                             }
 
                         }
