@@ -22,4 +22,6 @@ I used MediatR for CQRS +  Clean Architecture To prepare this Solution and
 `services.AddScoped<INotificationService, EmailService>();
 //Add more INotificationService here`
 
+>MailService need configs
+
    

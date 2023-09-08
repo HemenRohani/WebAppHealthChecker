@@ -26,7 +26,7 @@ public static class ConfigureServices
             options.OnPermissionCheck = context => context.User.Identity.IsAuthenticated;
         });
 
-        //services.AddHostedService<WebAppHealthCheckerTask>();
+        services.AddHostedService<WebAppHealthCheckerTask>();
 
         services.AddTransient<UserData>(provider => 
         {
